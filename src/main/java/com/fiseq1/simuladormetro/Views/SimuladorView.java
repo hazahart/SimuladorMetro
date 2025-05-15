@@ -26,6 +26,7 @@ public class SimuladorView extends Stage {
     private Scene scene;
     private HBox hButtons;
     private Button iniciarSimulacion, finalizarSimulacion;
+    private MapaView mapa;
 
     public void start() {
         createGUI();
@@ -57,7 +58,7 @@ public class SimuladorView extends Stage {
         hButtons.setPadding(new Insets(25));
 
         // Mapa
-        MapaView mapa = new MapaView();
+        mapa = new MapaView();
 
         // Contenedor de elementos principales
         root.setBottom(hButtons);
@@ -71,5 +72,9 @@ public class SimuladorView extends Stage {
 
     public Button getFinalizarSimulacion() {
         return finalizarSimulacion;
+    }
+
+    public MapaView getMapaView() {
+        return mapa;
     }
 }
