@@ -40,7 +40,7 @@ public class SimuladorView extends Stage {
 
         Line lineaCentral = new Line(0, 0, 600, 0);
         lineaCentral.setStroke(Color.BLACK);
-        lineaCentral.setStrokeWidth(4);
+        lineaCentral.setStrokeWidth(1);
 
         StackPane centro = new StackPane();
         centro.getChildren().add(lineaCentral);
