@@ -29,7 +29,7 @@ public class SimuladorView extends Stage {
 
     public void start() {
         createGUI();
-        this.scene = new Scene(root, 800, 600);
+        this.scene = new Scene(root, 1280, 720);
         this.setScene(scene);
         this.setTitle("Simulador");
         this.show();
