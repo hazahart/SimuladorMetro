@@ -8,7 +8,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 public class EstacionView extends StackPane {
-    private Estacion estacion;
+    private final Estacion estacion;
     private final ImageView icono;
     private final Image IMG_OCUPADA = new Image(this.getClass().getResource("/icons/ocupada.png").toExternalForm());
     private final Image IMG_LIBRE = new Image(this.getClass().getResource("/icons/libre.png").toExternalForm());
@@ -16,7 +16,7 @@ public class EstacionView extends StackPane {
 
     public EstacionView (Estacion estacion) {
         this.estacion = estacion;
-        this.icono = new ImageView();
+        this.icono = new ImageView(IMG_NEUTRAL);
         updateIcon();
 
         Text nombreEstacion = new Text(estacion.getNombre());
@@ -29,5 +29,11 @@ public class EstacionView extends StackPane {
 
     public void updateIcon() {
         if (estacion == null) return;
+
+        if (estacion.estaOcupada()) {
+            icono.setImage(IMG_OCUPADA);
+        } else {
+            icono.setImage(IMG_LIBRE);
+        }
     }
 }
