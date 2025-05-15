@@ -11,8 +11,6 @@ public class EstacionView extends StackPane {
     private Estacion estacion;
     private final ImageView icono;
 
-    private final Image IMG_OCUPADA = new Image(getClass().getResource("").toExternalForm());
-
     public EstacionView (Estacion estacion) {
         this.estacion = estacion;
         this.icono = new ImageView();
@@ -28,9 +26,5 @@ public class EstacionView extends StackPane {
 
     public void updateIcon() {
         if (estacion == null) return;
-
-        if (estacion.estaOcupada()) {
-            icono.setImage(IMG_OCUPADA);
-        }
     }
 }
