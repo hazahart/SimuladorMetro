@@ -32,19 +32,13 @@ public class SimuladorView extends Stage {
         this.scene = new Scene(root, 1280, 720);
         this.setScene(scene);
         this.setTitle("Simulador");
+        this.setMinWidth(854);
+        this.setMinHeight(480);
         this.show();
     }
 
     private void createGUI() {
         root = new BorderPane();
-
-        Line lineaCentral = new Line(0, 0, 600, 0);
-        lineaCentral.setStroke(Color.BLACK);
-        lineaCentral.setStrokeWidth(1);
-
-        StackPane centro = new StackPane();
-        centro.getChildren().add(lineaCentral);
-        centro.setPadding(new Insets(50));
 
         // Button IniciarSimulacion
         iniciarSimulacion = new Button("Iniciar la simulacion");
@@ -62,9 +56,12 @@ public class SimuladorView extends Stage {
         hButtons.setAlignment(Pos.BOTTOM_RIGHT);
         hButtons.setPadding(new Insets(25));
 
+        // Mapa
+        MapaView mapa = new MapaView();
+
         // Contenedor de elementos principales
         root.setBottom(hButtons);
-        root.setCenter(centro);
+        root.setCenter(mapa);
 
     }
 
