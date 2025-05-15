@@ -7,6 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Line;
+import javafx.scene.paint.Color;
+
 
 /**
  * Representa la ventana principal del simulador de metro.
@@ -34,6 +38,14 @@ public class SimuladorView extends Stage {
     private void createGUI() {
         root = new BorderPane();
 
+        Line lineaCentral = new Line(0, 0, 600, 0);
+        lineaCentral.setStroke(Color.BLACK);
+        lineaCentral.setStrokeWidth(4);
+
+        StackPane centro = new StackPane();
+        centro.getChildren().add(lineaCentral);
+        centro.setPadding(new Insets(50));
+
         // Button IniciarSimulacion
         iniciarSimulacion = new Button("Iniciar la simulacion");
         iniciarSimulacion.setPrefSize(100, 60);
@@ -52,6 +64,8 @@ public class SimuladorView extends Stage {
 
         // Contenedor de elementos principales
         root.setBottom(hButtons);
+        root.setCenter(centro);
+
     }
 
     public Button getIniciarSimulacion() {
