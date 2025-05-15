@@ -7,4 +7,14 @@ public class SimuladorController {
     public SimuladorController(SimuladorView vista) {
         this.simulador = vista;
     }
+
+    public void iniciarSimulador() {
+        simulador.start();
+        simulador.getIniciarSimulacion().setOnAction(e -> {
+            System.out.println("Iniciando Simulador...");
+        });
+        simulador.getFinalizarSimulacion().setOnAction(e -> {
+            System.out.println("Finalizando Simulador...");
+        });
+    }
 }

@@ -1,5 +1,6 @@
 package com.fiseq1.simuladormetro;
 
+import com.fiseq1.simuladormetro.Controllers.SimuladorController;
 import com.fiseq1.simuladormetro.Views.SimuladorView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -13,7 +14,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        SimuladorView simulador = new SimuladorView();
-        simulador.start();
+        SimuladorController simuladorController = new SimuladorController(new SimuladorView());
+        simuladorController.iniciarSimulador();
     }
 }
