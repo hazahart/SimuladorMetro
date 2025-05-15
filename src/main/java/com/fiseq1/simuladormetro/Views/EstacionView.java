@@ -10,6 +10,9 @@ import javafx.scene.text.Text;
 public class EstacionView extends StackPane {
     private Estacion estacion;
     private final ImageView icono;
+    private final Image IMG_OCUPADA = new Image(this.getClass().getResource("/icons/ocupada.png").toExternalForm());
+    private final Image IMG_LIBRE = new Image(this.getClass().getResource("/icons/libre.png").toExternalForm());
+    private final Image IMG_NEUTRAL = new Image(this.getClass().getResource("/icons/neutral.png").toExternalForm());
 
     public EstacionView (Estacion estacion) {
         this.estacion = estacion;
