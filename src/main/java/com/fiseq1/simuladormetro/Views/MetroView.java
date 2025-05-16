@@ -32,8 +32,8 @@ public class MetroView extends StackPane {
         contenedor.setMinSize(50, 50);
 
         // Posicionar el tren con base en cordX y cordY
-        contenedor.setTranslateX(metro.getCordX());
-        contenedor.setTranslateY(metro.getCordY());
+        contenedor.setTranslateX(metro.getCoordX());
+        contenedor.setTranslateY(metro.getCoordY());
 
         // Agregar al StackPane
         this.getChildren().add(contenedor);

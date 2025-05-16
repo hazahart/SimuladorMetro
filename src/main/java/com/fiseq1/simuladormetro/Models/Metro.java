@@ -1,29 +1,32 @@
 package com.fiseq1.simuladormetro.Models;
 
 public class Metro {
-    private double cordX;
-    private double cordY;
+    private double coordX;
+    private double coordY;
 
-    public Metro(double cordX, double cordY) {
-        this.cordX = cordX;
-        this.cordY = cordY;
+    public Metro(double coordX, double coordY) {
+        this.coordX = coordX;
+        this.coordY = coordY;
     }
 
-    //Getter and Setters
-    public double getCordX() {
-        return cordX;
+    public double getCoordX() {
+        return coordX;
     }
 
-    public void setCordX(double cordX) {
-        this.cordX = cordX;
+    public void setCoordX(double coordX) {
+        this.coordX = coordX;
     }
 
-    public double getCordY() {
-        return cordY;
+    public double getCoordY() {
+        return coordY;
     }
 
-    public void setCordY(double cordY) {
-        this.cordY = cordY;
+    public void setCoordY(double coordY) {
+        this.coordY = coordY;
+    }
+
+    public void moverA(double x, double y) {
+        this.coordX = x;
+        this.coordY = y;
     }
 }
-
