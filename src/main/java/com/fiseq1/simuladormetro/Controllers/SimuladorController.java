@@ -2,14 +2,21 @@ package com.fiseq1.simuladormetro.Controllers;
 
 import com.fiseq1.simuladormetro.Models.Estacion;
 import com.fiseq1.simuladormetro.Models.Mapa;
+import com.fiseq1.simuladormetro.Models.Metro;
+import com.fiseq1.simuladormetro.Views.MetroView;
 import com.fiseq1.simuladormetro.Views.SimuladorView;
 
 public class SimuladorController {
     private SimuladorView simulador;
     private Mapa mapa;
+    private Metro metro;
+    private MetroView mV;
+
     public SimuladorController(SimuladorView vista) {
         this.simulador = vista;
         this.mapa = new Mapa();
+        this.metro = new Metro(100,50);
+        this.mV = new MetroView(metro);
     }
 
     public void iniciarSimulador() {

@@ -48,6 +48,10 @@ public class MapaView extends Pane {
         redibujar();
     }
 
+    private void Imprimir_tren (){
+
+    }
+
     private void redibujar() {
         if (estacionesActuales == null || estacionesActuales.isEmpty()) return;
 
