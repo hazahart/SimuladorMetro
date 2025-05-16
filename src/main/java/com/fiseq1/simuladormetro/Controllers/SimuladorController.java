@@ -60,6 +60,7 @@ public class SimuladorController {
         });
         simulador.getFinalizarSimulacion().setOnAction(e -> {
             System.out.println("Finalizando Simulador...");
+            finalizarSimulacion();
         });
     }
 
@@ -102,7 +103,7 @@ public class SimuladorController {
      */
     private void animarMetro() {
         List<Estacion> estaciones = mapa.getEstaciones();
-        SequentialTransition secuencia = new SequentialTransition();
+        secuencia = new SequentialTransition();
 
         for (Estacion estacion : estaciones) {
             EstacionView vista = simulador.getMapaView().getVistaDeEstacion(estacion);
@@ -154,27 +155,35 @@ public class SimuladorController {
         simulador.getMapaView().actualizarVistasEstaciones();
     }
 
-    private void finalizarSimulacion(){
-
-        if (secuencia != null) {
+    /**
+     * Finaliza la simulación del metro.
+     * <p>
+     * Detiene la animación actual, libera todas las estaciones, actualiza los íconos
+     * y reposiciona el tren en la primera estación.
+     * </p>
+     */
+    private void finalizarSimulacion() {
+        // Detener la animación si está en curso
+        if (secuencia != null && secuencia.getStatus() == Animation.Status.RUNNING) {
             secuencia.stop();
-            secuencia = null;
         }
 
-
-        double yInicio = simulador.getMapaView().getLineaCentral().getStartY() - 20;
-        metro.moverA(0, yInicio);
-        metroView.setTranslateX(0);
-        metroView.setTranslateY(0);
-        metroView.actualizarPosicion();
-
-
+        // Liberar todas las estaciones
         for (Estacion estacion : mapa.getEstaciones()) {
             estacion.liberar();
         }
 
+        // Actualizar visualmente las estaciones
         simulador.getMapaView().actualizarVistasEstaciones();
 
+        // Reposicionar el tren al inicio (primera estación: La Laja)
+        Estacion inicio = mapa.getEstaciones().get(0);
+        double x = inicio.getCoordX();
+        double y = inicio.getCoordY() + 45;
 
+        metro.moverA(x, y);
+        metroView.actualizarPosicion();
+
+        System.out.println("Simulación finalizada. Tren reiniciado en: " + inicio.getNombre());
     }
 }
