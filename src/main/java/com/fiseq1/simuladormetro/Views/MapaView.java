@@ -79,4 +79,9 @@ public class MapaView extends Pane {
     public Line getLineaCentral() {
         return lineaCentral;
     }
+
+    public void agregarMetro(MetroView metroView) {
+        this.getChildren().add(metroView);
+    }
+
 }

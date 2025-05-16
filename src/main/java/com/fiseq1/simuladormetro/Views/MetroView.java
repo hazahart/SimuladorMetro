@@ -4,40 +4,54 @@ import com.fiseq1.simuladormetro.Models.Metro;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 import java.util.Objects;
 
+/**
+ * Vista que representa visualmente el metro (tren) en el simulador.
+ */
 public class MetroView extends StackPane {
     private final Metro metro;
     private final ImageView icono;
 
-    private final Image tren = new Image(
+    private static final double ICON_SIZE = 40;
+
+    private final Image IMG_TREN = new Image(
             Objects.requireNonNull(
                     getClass().getResource("/com/fiseq1/simuladormetro/icons/tren.png"),
-                    "El icono no fue encontrado"
+                    "El icono del tren no fue encontrado"
             ).toExternalForm()
     );
 
     public MetroView(Metro metro) {
         this.metro = metro;
 
-        // Crear el icono del tren
-        this.icono = new ImageView(tren);
-        icono.setFitWidth(40);
-        icono.setFitHeight(40);
+        this.icono = new ImageView(IMG_TREN);
+        icono.setFitWidth(ICON_SIZE);
+        icono.setFitHeight(ICON_SIZE);
+        icono.setPreserveRatio(true);
 
-        // Contenedor del tren (puedes agregar más cosas si quieres)
-        VBox contenedor = new VBox(icono);
-        contenedor.setMinSize(50, 50);
+        this.getChildren().add(icono);
 
-        // Posicionar el tren con base en cordX y cordY
-        contenedor.setTranslateX(metro.getCoordX());
-        contenedor.setTranslateY(metro.getCoordY());
+        // Posiciona visualmente según el modelo
+        this.setTranslateX(metro.getCoordX());
+        this.setTranslateY(metro.getCoordY());
+    }
 
-        // Agregar al StackPane
-        this.getChildren().add(contenedor);
+    /**
+     * Actualiza la posición del icono visual según las coordenadas del modelo.
+     * Llamar a esto si se modifican las coordenadas de `metro`.
+     */
+    public void actualizarPosicion() {
+        this.setTranslateX(metro.getCoordX());
+        this.setTranslateY(metro.getCoordY());
+    }
+
+    public Metro getMetro() {
+        return metro;
+    }
+
+    public ImageView getIcono() {
+        return icono;
     }
 }
-
-

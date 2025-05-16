@@ -9,14 +9,10 @@ import com.fiseq1.simuladormetro.Views.SimuladorView;
 public class SimuladorController {
     private SimuladorView simulador;
     private Mapa mapa;
-    private Metro metro;
-    private MetroView mV;
 
     public SimuladorController(SimuladorView vista) {
         this.simulador = vista;
         this.mapa = new Mapa();
-        this.metro = new Metro(100,50);
-        this.mV = new MetroView(metro);
     }
 
     public void iniciarSimulador() {
@@ -25,6 +21,10 @@ public class SimuladorController {
 
         simulador.getMapaView().cargarEstaciones(mapa.getEstaciones());
 
+        Metro metro = new Metro(0, simulador.getMapaView().getLineaCentral().getStartY() - 20);
+        MetroView metroView = new MetroView(metro);
+        simulador.getMapaView().agregarMetro(metroView);
+
         simulador.getIniciarSimulacion().setOnAction(e -> {
             System.out.println("Iniciando Simulador...");
         });
@@ -32,6 +32,7 @@ public class SimuladorController {
             System.out.println("Finalizando Simulador...");
         });
     }
+
 
     public void inicializarMapa() {
         mapa.agregarEstacion(new Estacion("La Laja", 100, 0));
