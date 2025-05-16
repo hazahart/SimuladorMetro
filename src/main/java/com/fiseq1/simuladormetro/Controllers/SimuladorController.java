@@ -35,7 +35,7 @@ public class SimuladorController {
 
 
     public void inicializarMapa() {
-        mapa.agregarEstacion(new Estacion("La Laja", 100, 0));
+        mapa.agregarEstacion(new Estacion("La Laja", 0, 0));
         mapa.agregarEstacion(new Estacion("Galerías Celaya", 0, 0));
         mapa.agregarEstacion(new Estacion("Walmart Irrigación", 0, 0));
         mapa.agregarEstacion(new Estacion("Ferromex Celaya", 0, 0));
