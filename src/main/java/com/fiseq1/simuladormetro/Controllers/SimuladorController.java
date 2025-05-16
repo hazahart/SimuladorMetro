@@ -46,7 +46,7 @@ public class SimuladorController {
     }
 
     private void inicializarMetro() {
-        Metro metro = new Metro(100, simulador.getMapaView().getLineaCentral().getStartY() - 20);
+        Metro metro = new Metro(0, simulador.getMapaView().getLineaCentral().getStartY() - 20);
         MetroView metroView = new MetroView(metro);
         simulador.getMapaView().agregarMetro(metroView);
     }
