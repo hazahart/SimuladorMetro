@@ -30,6 +30,8 @@ public class SimuladorController {
     private Mapa mapa;
     private Metro metro;
     private MetroView metroView;
+    private SequentialTransition secuencia;
+
 
     /**
      * Crea un nuevo controlador para el simulador.
@@ -86,6 +88,7 @@ public class SimuladorController {
         metroView = new MetroView(metro);
         simulador.getMapaView().agregarMetro(metroView);
     }
+
 
     /**
      * Anima el recorrido del metro desde la primera hasta la última estación.
@@ -149,5 +152,29 @@ public class SimuladorController {
             }
         }
         simulador.getMapaView().actualizarVistasEstaciones();
+    }
+
+    private void finalizarSimulacion(){
+
+        if (secuencia != null) {
+            secuencia.stop();
+            secuencia = null;
+        }
+
+
+        double yInicio = simulador.getMapaView().getLineaCentral().getStartY() - 20;
+        metro.moverA(0, yInicio);
+        metroView.setTranslateX(0);
+        metroView.setTranslateY(0);
+        metroView.actualizarPosicion();
+
+
+        for (Estacion estacion : mapa.getEstaciones()) {
+            estacion.liberar();
+        }
+
+        simulador.getMapaView().actualizarVistasEstaciones();
+
+
     }
 }
