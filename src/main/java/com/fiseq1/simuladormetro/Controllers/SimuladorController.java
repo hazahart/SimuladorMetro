@@ -21,9 +21,7 @@ public class SimuladorController {
 
         simulador.getMapaView().cargarEstaciones(mapa.getEstaciones());
 
-        Metro metro = new Metro(0, simulador.getMapaView().getLineaCentral().getStartY() - 20);
-        MetroView metroView = new MetroView(metro);
-        simulador.getMapaView().agregarMetro(metroView);
+        inicializarMetro();
 
         simulador.getIniciarSimulacion().setOnAction(e -> {
             System.out.println("Iniciando Simulador...");
@@ -46,4 +44,11 @@ public class SimuladorController {
         mapa.agregarEstacion(new Estacion("Crespo", 0, 0));
         mapa.agregarEstacion(new Estacion("Cortazar", 0, 0));
     }
+
+    private void inicializarMetro() {
+        Metro metro = new Metro(100, simulador.getMapaView().getLineaCentral().getStartY() - 20);
+        MetroView metroView = new MetroView(metro);
+        simulador.getMapaView().agregarMetro(metroView);
+    }
+
 }
