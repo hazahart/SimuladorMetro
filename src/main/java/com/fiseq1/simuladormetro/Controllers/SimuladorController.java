@@ -3,6 +3,7 @@ package com.fiseq1.simuladormetro.Controllers;
 import com.fiseq1.simuladormetro.Models.Estacion;
 import com.fiseq1.simuladormetro.Models.Mapa;
 import com.fiseq1.simuladormetro.Models.Metro;
+import com.fiseq1.simuladormetro.Views.EstacionView;
 import com.fiseq1.simuladormetro.Views.MetroView;
 import com.fiseq1.simuladormetro.Views.SimuladorView;
 import javafx.animation.*;
@@ -11,10 +12,17 @@ import javafx.util.Duration;
 import java.util.List;
 
 /**
- * Controlador principal del simulador de metro.
+ * Controlador del simulador de metro.
  * <p>
- * Se encarga de inicializar la vista {@link SimuladorView}, cargar el mapa de estaciones,
- * crear la instancia del tren ({@link Metro}) y animarlo a lo largo del recorrido.
+ * Esta clase es responsable de coordinar la lógica principal del simulador:
+ * inicializa la interfaz gráfica, carga las estaciones del mapa, crea el tren
+ * y anima su recorrido por las estaciones. A medida que el tren se desplaza,
+ * se actualizan dinámicamente los estados visuales y lógicos de las estaciones
+ * (ocupadas o libres) en tiempo real.
+ * </p>
+ * <p>
+ * El controlador también administra la interacción con la vista principal
+ * ({@link SimuladorView}) y sus componentes, como el mapa de estaciones y los botones de control.
  * </p>
  */
 public class SimuladorController {
@@ -80,33 +88,66 @@ public class SimuladorController {
     }
 
     /**
-     * Anima el tren recorriendo secuencialmente todas las estaciones del mapa.
-     * Utiliza {@link TranslateTransition} y {@link PauseTransition} dentro de un {@link SequentialTransition}
-     * para representar el movimiento progresivo del metro entre estaciones.
+     * Anima el recorrido del metro desde la primera hasta la última estación.
+     * <p>
+     * Utiliza una {@link SequentialTransition} para encadenar una serie de
+     * {@link TranslateTransition} (movimiento del tren hacia cada estación)
+     * y {@link PauseTransition} (tiempo de espera en cada estación).
+     * Durante la animación, se actualiza la posición del modelo {@link Metro}
+     * y se notifican visualmente los cambios de ocupación de estaciones.
+     * </p>
      */
     private void animarMetro() {
         List<Estacion> estaciones = mapa.getEstaciones();
         SequentialTransition secuencia = new SequentialTransition();
 
-        for (int i = 0; i < estaciones.size(); i++) {
-            Estacion estacion = estaciones.get(i);
-            double destinoX = estacion.getCoordX();
-            double destinoY = estacion.getCoordY() + 45;
+        for (Estacion estacion : estaciones) {
+            EstacionView vista = simulador.getMapaView().getVistaDeEstacion(estacion);
+            if (vista == null) continue;
 
             TranslateTransition transicion = new TranslateTransition(Duration.seconds(1.2), metroView);
-            transicion.setToX(destinoX);
-            transicion.setToY(destinoY);
+            transicion.setToX(estacion.getCoordX());
+            transicion.setToY(estacion.getCoordY() + 45);
 
             transicion.setOnFinished(e -> {
-                metro.moverA(destinoX, destinoY);
+                metro.moverA(estacion.getCoordX(), estacion.getCoordY() + 45);
                 metroView.actualizarPosicion();
+                actualizarEstadosEstaciones();
+                System.out.println("Coordenadas estacion: " + estacion.getCoordX() + "," + estacion.getCoordY());
+                System.out.println("Coordenadas metro: " + metro.getCoordX() + "," + metro.getCoordY());
             });
 
             PauseTransition pausa = new PauseTransition(Duration.seconds(1));
-
             secuencia.getChildren().addAll(transicion, pausa);
         }
 
         secuencia.play();
+    }
+
+    /**
+     * Actualiza el estado de ocupación de cada estación.
+     * <p>
+     * Compara la posición actual del metro (coordenadas del modelo) con la de cada estación.
+     * Si el metro se encuentra en una estación (coordenadas coinciden dentro de un margen),
+     * se marca como ocupada; de lo contrario, se marca como libre.
+     * Después, se actualiza visualmente cada ícono de estación con {@code updateIcon()}.
+     * </p>
+     */
+    private void actualizarEstadosEstaciones() {
+        List<Estacion> estaciones = mapa.getEstaciones();
+
+        for (Estacion estacion : estaciones) {
+            double x = estacion.getCoordX();
+            double y = estacion.getCoordY() + 45;
+
+            boolean estaEnEstacion = metro.getCoordX() == x || metro.getCoordY() + 45 == y;
+
+            if (estaEnEstacion) {
+                estacion.ocupar();
+            } else {
+                estacion.liberar();
+            }
+        }
+        simulador.getMapaView().actualizarVistasEstaciones();
     }
 }

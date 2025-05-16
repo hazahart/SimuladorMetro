@@ -2,6 +2,7 @@ package com.fiseq1.simuladormetro.Views;
 
 import com.fiseq1.simuladormetro.Models.Estacion;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -48,10 +49,6 @@ public class MapaView extends Pane {
         redibujar();
     }
 
-    private void Imprimir_tren (){
-
-    }
-
     private void redibujar() {
         if (estacionesActuales == null || estacionesActuales.isEmpty()) return;
 
@@ -84,4 +81,20 @@ public class MapaView extends Pane {
         this.getChildren().add(metroView);
     }
 
+    public EstacionView getVistaDeEstacion(Estacion estacionBuscada) {
+        for (Node n : grupoEstaciones.getChildren()) {
+            if (n instanceof EstacionView ev && ev.getEstacion().equals(estacionBuscada)) {
+                return ev;
+            }
+        }
+        return null;
+    }
+
+    public void actualizarVistasEstaciones() {
+        for (Node node : grupoEstaciones.getChildren()) {
+            if (node instanceof EstacionView ev) {
+                ev.updateIcon();
+            }
+        }
+    }
 }

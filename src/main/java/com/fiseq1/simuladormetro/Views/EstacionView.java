@@ -46,11 +46,11 @@ public class EstacionView extends StackPane {
         this.estacion = estacion;
 
         // Crear el ImageView con imagen neutral por defecto
-        this.icono = new ImageView(IMG_NEUTRAL);
+        this.icono = new ImageView(IMG_LIBRE);
 
-        // Establecer tamaño fijo (ajústalo como prefieras)
-        icono.setFitWidth(40);
-        icono.setFitHeight(40);
+        // Establecer tamaño fijo
+        icono.setFitWidth(35);
+        icono.setFitHeight(35);
         icono.setPreserveRatio(true);
 
         // Crear texto con nombre de la estación
@@ -79,5 +79,9 @@ public class EstacionView extends StackPane {
         } else {
             icono.setImage(IMG_LIBRE);
         }
+    }
+
+    public Estacion getEstacion() {
+        return estacion;
     }
 }
