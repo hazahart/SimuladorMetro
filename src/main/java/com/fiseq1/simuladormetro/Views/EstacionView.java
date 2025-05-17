@@ -55,6 +55,7 @@ public class EstacionView extends StackPane {
 
         // Crear texto con nombre de la estación
         Text nombreEstacion = new Text(estacion.getNombre());
+        nombreEstacion.setWrappingWidth(70);
 
         // VBox para estaciones y nombre
         VBox vEstacion = new VBox(icono, nombreEstacion);

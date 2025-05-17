@@ -109,7 +109,7 @@ public class SimuladorController {
             EstacionView vista = simulador.getMapaView().getVistaDeEstacion(estacion);
             if (vista == null) continue;
 
-            TranslateTransition transicion = new TranslateTransition(Duration.seconds(1.2), metroView);
+            TranslateTransition transicion = new TranslateTransition(Duration.seconds(1), metroView);
             transicion.setToX(estacion.getCoordX());
             transicion.setToY(estacion.getCoordY() + 45);
 
@@ -121,7 +121,7 @@ public class SimuladorController {
                 System.out.println("Coordenadas metro: " + metro.getCoordX() + "," + metro.getCoordY());
             });
 
-            PauseTransition pausa = new PauseTransition(Duration.seconds(1));
+            PauseTransition pausa = new PauseTransition(Duration.seconds(3));
             secuencia.getChildren().addAll(transicion, pausa);
         }
 
