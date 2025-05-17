@@ -18,7 +18,7 @@ public class MetroView extends StackPane {
 
     private final Image IMG_TREN = new Image(
             Objects.requireNonNull(
-                    getClass().getResource("/com/fiseq1/simuladormetro/icons/tren.png"),
+                    getClass().getResource("/icons/tren.png"),
                     "El icono del tren no fue encontrado"
             ).toExternalForm()
     );

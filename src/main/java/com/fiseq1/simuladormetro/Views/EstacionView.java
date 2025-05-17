@@ -28,13 +28,13 @@ public class EstacionView extends StackPane {
     private final ImageView icono;
 
     private final Image IMG_OCUPADA = new Image(Objects.requireNonNull(
-            getClass().getResource("/com/fiseq1/simuladormetro/icons/ocupada.png"), "Icono ocupada.png no encontrado").toExternalForm());
+            getClass().getResource("/icons/ocupada.png"), "Icono ocupada.png no encontrado").toExternalForm());
 
     private final Image IMG_LIBRE = new Image(Objects.requireNonNull(
-            getClass().getResource("/com/fiseq1/simuladormetro/icons/libre.png"), "Icono libre.png no encontrado").toExternalForm());
+            getClass().getResource("/icons/libre.png"), "Icono libre.png no encontrado").toExternalForm());
 
     private final Image IMG_NEUTRAL = new Image(Objects.requireNonNull(
-            getClass().getResource("/com/fiseq1/simuladormetro/icons/neutral.png"), "Icono neutral.png no encontrado").toExternalForm());
+            getClass().getResource("/icons/neutral.png"), "Icono neutral.png no encontrado").toExternalForm());
 
     /**
      * Crea la vista visual de una estación, mostrando su estado inicial como neutral
