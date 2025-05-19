@@ -57,10 +57,12 @@ public class SimuladorController {
         simulador.getIniciarSimulacion().setOnAction(e -> {
             System.out.println("Iniciando Simulador...");
             animarMetro();
+            simulador.getIniciarSimulacion().setDisable(true);
         });
         simulador.getFinalizarSimulacion().setOnAction(e -> {
             System.out.println("Finalizando Simulador...");
             finalizarSimulacion();
+            simulador.getIniciarSimulacion().setDisable(false);
         });
     }
 
