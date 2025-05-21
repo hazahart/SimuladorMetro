@@ -10,10 +10,6 @@ public class Pseudoaleatorio {
     private String arrAscii = "";
     private final int valorAnterior;
 
-    public Pseudoaleatorio(double alto, double ancho) {
-        this(alto, ancho, 0);
-    }
-
     public Pseudoaleatorio(double alto, double ancho, int valorAnterior) {
         this.ALTO = alto;
         this.ANCHO = ancho;
@@ -24,7 +20,6 @@ public class Pseudoaleatorio {
         double PI = Math.PI;
         double base = ((ALTO * PI) + (ANCHO * PI)) * valorAnterior;
         String anchoAlto = String.valueOf(base);
-        System.out.println("Base modificada con valorAnterior (" + valorAnterior + "): " + anchoAlto);
 
         // Convertir a valores ASCII
         int[] asciiTemp = new int[anchoAlto.length() * 2];
