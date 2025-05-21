@@ -27,7 +27,7 @@ public class SimuladorView extends Stage {
     private BorderPane root;
     private Scene scene;
     private HBox hButtons, hPasajeros;
-    private Button iniciarSimulacion, finalizarSimulacion;
+    private Button iniciarSimulacion, finalizarSimulacion, btnGrafico;
     private MapaView mapa;
     private TextField txfPasajeros;
 
@@ -54,6 +54,11 @@ public class SimuladorView extends Stage {
         finalizarSimulacion.setPrefSize(100, 60);
         finalizarSimulacion.setWrapText(true);
 
+        // Button para mostrar grafico
+        btnGrafico = new Button("Gráfica");
+        btnGrafico.setPrefSize(100, 60);
+        btnGrafico.setWrapText(true);
+
         // TextField Pasajeros
         txfPasajeros = new TextField();
         txfPasajeros.setPrefSize(250, 50);
@@ -66,7 +71,7 @@ public class SimuladorView extends Stage {
         hPasajeros.setPadding(new Insets(25));
 
         // HBox (Organización de los botones)
-        hButtons = new HBox(iniciarSimulacion, finalizarSimulacion);
+        hButtons = new HBox(btnGrafico, iniciarSimulacion, finalizarSimulacion);
         hButtons.setSpacing(10);
         hButtons.setPadding(new Insets(25));
 
@@ -90,6 +95,10 @@ public class SimuladorView extends Stage {
 
     public Button getFinalizarSimulacion() {
         return finalizarSimulacion;
+    }
+
+    public Button getBtnGrafico() {
+        return btnGrafico;
     }
 
     public MapaView getMapaView() {

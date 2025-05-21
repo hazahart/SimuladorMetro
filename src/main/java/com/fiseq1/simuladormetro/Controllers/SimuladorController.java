@@ -4,13 +4,17 @@ import com.fiseq1.simuladormetro.Models.Estacion;
 import com.fiseq1.simuladormetro.Models.Mapa;
 import com.fiseq1.simuladormetro.Models.Metro;
 import com.fiseq1.simuladormetro.Views.EstacionView;
+import com.fiseq1.simuladormetro.Views.GraficoPasajerosView;
 import com.fiseq1.simuladormetro.Views.MetroView;
 import com.fiseq1.simuladormetro.Views.SimuladorView;
 import com.fiseq1.simuladormetro.utils.Pseudoaleatorio;
 import javafx.animation.*;
 import javafx.util.Duration;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controlador del simulador de metro.
@@ -23,7 +27,8 @@ import java.util.List;
  * </p>
  * <p>
  * El controlador también administra la interacción con la vista principal
- * ({@link SimuladorView}) y sus componentes, como el mapa de estaciones y los botones de control.
+ * ({@link SimuladorView}) y sus componentes, como el mapa de estaciones y los
+ * botones de control.
  * </p>
  */
 public class SimuladorController {
@@ -37,7 +42,7 @@ public class SimuladorController {
     public double ALTO;
     public static final int TOTAL_PASAJEROS = 40;
     public static int PASAJEROS_RESTANTES = TOTAL_PASAJEROS;
-
+    private final Map<String, Integer> pasajerosPorEstacion = new LinkedHashMap<>();
 
     /**
      * Crea un nuevo controlador para el simulador.
@@ -50,7 +55,8 @@ public class SimuladorController {
     }
 
     /**
-     * Inicializa la vista y el mapa, y configura los eventos de los botones de simulación.
+     * Inicializa la vista y el mapa, y configura los eventos de los botones de
+     * simulación.
      */
     public void iniciarSimulador() {
         simulador.start();
@@ -62,19 +68,26 @@ public class SimuladorController {
 
         simulador.getIniciarSimulacion().setOnAction(e -> {
             System.out.println("Iniciando Simulador...");
+            pasajerosPorEstacion.clear();
+            simulador.getTxfPasajeros().setText("Pasajeros: 0/" + TOTAL_PASAJEROS);
             animarMetro();
             simulador.getIniciarSimulacion().setDisable(true);
         });
+
         simulador.getFinalizarSimulacion().setOnAction(e -> {
             System.out.println("Finalizando Simulador...");
             finalizarSimulacion();
             simulador.getIniciarSimulacion().setDisable(false);
             PASAJEROS_RESTANTES = TOTAL_PASAJEROS;
         });
+        simulador.getBtnGrafico().setOnAction(e -> {
+            mostrarGraficoPasajeros();
+        });
     }
 
     /**
-     * Carga manualmente las estaciones del recorrido y las agrega al modelo del mapa.
+     * Carga manualmente las estaciones del recorrido y las agrega al modelo del
+     * mapa.
      */
     public void inicializarMapa() {
         mapa.agregarEstacion(new Estacion("La Laja", 0, 0));
@@ -90,7 +103,8 @@ public class SimuladorController {
     }
 
     /**
-     * Inicializa el tren (objeto {@link Metro} y su vista {@link MetroView}) y lo agrega al mapa.
+     * Inicializa el tren (objeto {@link Metro} y su vista {@link MetroView}) y lo
+     * agrega al mapa.
      */
     private void inicializarMetro() {
         double y = simulador.getMapaView().getLineaCentral().getStartY() - 20;
@@ -98,7 +112,6 @@ public class SimuladorController {
         metroView = new MetroView(metro);
         simulador.getMapaView().agregarMetro(metroView);
     }
-
 
     /**
      * Anima el recorrido del metro desde la primera hasta la última estación.
@@ -113,12 +126,13 @@ public class SimuladorController {
     private void animarMetro() {
         List<Estacion> estaciones = mapa.getEstaciones();
         secuencia = new SequentialTransition();
-        final int[] acumulados = {0};
-        final int[] valorAnterior = {1};
+        final int[] acumulados = { 0 };
+        final int[] valorAnterior = { 1 };
 
         for (Estacion estacion : estaciones) {
             EstacionView vista = simulador.getMapaView().getVistaDeEstacion(estacion);
-            if (vista == null) continue;
+            if (vista == null)
+                continue;
 
             TranslateTransition transicion = new TranslateTransition(Duration.seconds(1), metroView);
             transicion.setToX(estacion.getCoordX());
@@ -138,7 +152,9 @@ public class SimuladorController {
                 valorAnterior[0] = pasajerosSuben; // lo usamos para influenciar el siguiente
 
                 System.out.println("Pasajeros suben en " + estacion.getNombre() + ": " + pasajerosSuben);
-//                System.out.println("Total acumulado: " + acumulados[0] + "/" + TOTAL_PASAJEROS);
+                pasajerosPorEstacion.put(estacion.getNombre(), pasajerosSuben);
+                // System.out.println("Total acumulado: " + acumulados[0] + "/" +
+                // TOTAL_PASAJEROS);
                 simulador.getTxfPasajeros().setText("Pasajeros: " + acumulados[0] + "/" + TOTAL_PASAJEROS);
 
                 metro.moverA(estacion.getCoordX(), estacion.getCoordY() + 45);
@@ -146,7 +162,7 @@ public class SimuladorController {
                 actualizarEstadosEstaciones();
             });
 
-            PauseTransition pausa = new PauseTransition(Duration.seconds(3));
+            PauseTransition pausa = new PauseTransition(Duration.seconds(1));
             secuencia.getChildren().addAll(transicion, pausa);
         }
 
@@ -156,10 +172,13 @@ public class SimuladorController {
     /**
      * Actualiza el estado de ocupación de cada estación.
      * <p>
-     * Compara la posición actual del metro (coordenadas del modelo) con la de cada estación.
-     * Si el metro se encuentra en una estación (coordenadas coinciden dentro de un margen),
+     * Compara la posición actual del metro (coordenadas del modelo) con la de cada
+     * estación.
+     * Si el metro se encuentra en una estación (coordenadas coinciden dentro de un
+     * margen),
      * se marca como ocupada; de lo contrario, se marca como libre.
-     * Después, se actualiza visualmente cada ícono de estación con {@code updateIcon()}.
+     * Después, se actualiza visualmente cada ícono de estación con
+     * {@code updateIcon()}.
      * </p>
      */
     private void actualizarEstadosEstaciones() {
@@ -180,10 +199,16 @@ public class SimuladorController {
         simulador.getMapaView().actualizarVistasEstaciones();
     }
 
+    private void mostrarGraficoPasajeros() {
+        System.out.println("Mostrando Pasajeros");
+        new GraficoPasajerosView(pasajerosPorEstacion).mostrar();
+    }
+
     /**
      * Finaliza la simulación del metro.
      * <p>
-     * Detiene la animación actual, libera todas las estaciones, actualiza los íconos
+     * Detiene la animación actual, libera todas las estaciones, actualiza los
+     * íconos
      * y reposiciona el tren en la primera estación.
      * </p>
      */
