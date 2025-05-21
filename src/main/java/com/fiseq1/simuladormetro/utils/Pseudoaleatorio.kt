@@ -1,5 +1,7 @@
 package com.fiseq1.simuladormetro.utils
 
+import com.fiseq1.simuladormetro.Controllers.SimuladorController
+
 /**
  * Clase generadora de números pseudoaleatorios basada en transformaciones matemáticas
  * con influencia del valor anterior generado y dimensiones proporcionadas.
@@ -24,7 +26,7 @@ class Pseudoaleatorio(var alto: Double, var ancho: Double, var valorAnterior: In
     val PI = Math.PI
 
     /** Número máximo de pasajeros (límite superior del número aleatorio). */
-    val TOTAL_PASAJEROS = 40
+    val TOTAL_PASAJEROS = SimuladorController.TOTAL_PASAJEROS
 
     /** Cadena intermedia con valores ASCII (actualmente sin uso externo). */
     var arrAscii: String = ""

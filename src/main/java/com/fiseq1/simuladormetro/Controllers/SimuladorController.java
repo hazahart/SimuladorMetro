@@ -35,6 +35,7 @@ public class SimuladorController {
     private Pseudoaleatorio pseudoaleatorio;
     public double ANCHO;
     public double ALTO;
+    public static final int TOTAL_PASAJEROS = 40;
 
 
     /**
@@ -110,7 +111,6 @@ public class SimuladorController {
     private void animarMetro() {
         List<Estacion> estaciones = mapa.getEstaciones();
         secuencia = new SequentialTransition();
-        final int TOTAL_PASAJEROS = 80;
         final int[] acumulados = {0};
         final int[] valorAnterior = {1};
 
@@ -135,7 +135,8 @@ public class SimuladorController {
                 valorAnterior[0] = pasajerosSuben; // lo usamos para influenciar el siguiente
 
                 System.out.println("Pasajeros suben en " + estacion.getNombre() + ": " + pasajerosSuben);
-                System.out.println("Total acumulado: " + acumulados[0] + "/" + TOTAL_PASAJEROS);
+//                System.out.println("Total acumulado: " + acumulados[0] + "/" + TOTAL_PASAJEROS);
+                simulador.getTxfPasajeros().setText("Pasajeros: " + acumulados[0] + "/" + TOTAL_PASAJEROS);
 
                 metro.moverA(estacion.getCoordX(), estacion.getCoordY() + 45);
                 metroView.actualizarPosicion();
@@ -206,11 +207,11 @@ public class SimuladorController {
         metroView.actualizarPosicion();
 
         System.out.println("Simulación finalizada. Tren reiniciado en: " + inicio.getNombre());
+        simulador.getTxfPasajeros().setText("Pasajeros: 0/" + TOTAL_PASAJEROS);
     }
 
     private void obtenerAltoAncho() {
         ANCHO = simulador.getAncho();
         ALTO = simulador.getAlto();
-        ALTO = ALTO * (int) (System.nanoTime() % 1000);
     }
 }
