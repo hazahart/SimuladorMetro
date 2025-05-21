@@ -77,4 +77,12 @@ public class SimuladorView extends Stage {
     public MapaView getMapaView() {
         return mapa;
     }
+
+    public double getAncho() {
+        return scene.getWidth();
+    }
+
+    public double getAlto() {
+        return scene.getHeight();
+    }
 }

@@ -6,6 +6,7 @@ import com.fiseq1.simuladormetro.Models.Metro;
 import com.fiseq1.simuladormetro.Views.EstacionView;
 import com.fiseq1.simuladormetro.Views.MetroView;
 import com.fiseq1.simuladormetro.Views.SimuladorView;
+import com.fiseq1.simuladormetro.utils.Pseudoaleatorio;
 import javafx.animation.*;
 import javafx.util.Duration;
 
@@ -31,6 +32,9 @@ public class SimuladorController {
     private Metro metro;
     private MetroView metroView;
     private SequentialTransition secuencia;
+    private Pseudoaleatorio pseudoaleatorio;
+    public double ANCHO;
+    public double ALTO;
 
 
     /**
@@ -106,6 +110,9 @@ public class SimuladorController {
     private void animarMetro() {
         List<Estacion> estaciones = mapa.getEstaciones();
         secuencia = new SequentialTransition();
+        final int TOTAL_PASAJEROS = 80;
+        final int[] acumulados = {0};
+        final int[] valorAnterior = {1};
 
         for (Estacion estacion : estaciones) {
             EstacionView vista = simulador.getMapaView().getVistaDeEstacion(estacion);
@@ -116,11 +123,23 @@ public class SimuladorController {
             transicion.setToY(estacion.getCoordY() + 45);
 
             transicion.setOnFinished(e -> {
+                obtenerAltoAncho();
+
+                pseudoaleatorio = new Pseudoaleatorio(ALTO, ANCHO, valorAnterior[0]);
+                int numeroGenerado = pseudoaleatorio.generar();
+
+                int limiteDisponible = TOTAL_PASAJEROS - acumulados[0];
+                int pasajerosSuben = Math.min(numeroGenerado, limiteDisponible);
+
+                acumulados[0] += pasajerosSuben;
+                valorAnterior[0] = pasajerosSuben; // lo usamos para influenciar el siguiente
+
+                System.out.println("Pasajeros suben en " + estacion.getNombre() + ": " + pasajerosSuben);
+                System.out.println("Total acumulado: " + acumulados[0] + "/" + TOTAL_PASAJEROS);
+
                 metro.moverA(estacion.getCoordX(), estacion.getCoordY() + 45);
                 metroView.actualizarPosicion();
                 actualizarEstadosEstaciones();
-                System.out.println("Coordenadas estacion: " + estacion.getCoordX() + "," + estacion.getCoordY());
-                System.out.println("Coordenadas metro: " + metro.getCoordX() + "," + metro.getCoordY());
             });
 
             PauseTransition pausa = new PauseTransition(Duration.seconds(3));
@@ -187,5 +206,11 @@ public class SimuladorController {
         metroView.actualizarPosicion();
 
         System.out.println("Simulación finalizada. Tren reiniciado en: " + inicio.getNombre());
+    }
+
+    private void obtenerAltoAncho() {
+        ANCHO = simulador.getAncho();
+        ALTO = simulador.getAlto();
+        ALTO = ALTO * (int) (System.nanoTime() % 1000);
     }
 }
