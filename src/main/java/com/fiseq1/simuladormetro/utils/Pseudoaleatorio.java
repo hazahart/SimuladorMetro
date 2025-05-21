@@ -6,7 +6,7 @@ import com.fiseq1.simuladormetro.Controllers.SimuladorController;
  * Clase generadora de números pseudoaleatorios basada en cálculos matemáticos,
  * manipulación de cadenas y generación congruencial lineal. Su rango de salida
  * se ajusta dinámicamente al valor de {@code PASAJEROS_RESTANTES}.
- *
+ * <p>
  * Esta clase forma parte del sistema de simulación de abordaje de pasajeros por estación
  * y garantiza que el valor generado nunca supere el límite restante de pasajeros.
  */
