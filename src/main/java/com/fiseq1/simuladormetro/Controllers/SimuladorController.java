@@ -36,6 +36,7 @@ public class SimuladorController {
     public double ANCHO;
     public double ALTO;
     public static final int TOTAL_PASAJEROS = 40;
+    public static int PASAJEROS_RESTANTES = TOTAL_PASAJEROS;
 
 
     /**
@@ -68,6 +69,7 @@ public class SimuladorController {
             System.out.println("Finalizando Simulador...");
             finalizarSimulacion();
             simulador.getIniciarSimulacion().setDisable(false);
+            PASAJEROS_RESTANTES = TOTAL_PASAJEROS;
         });
     }
 
@@ -132,6 +134,7 @@ public class SimuladorController {
                 int pasajerosSuben = Math.min(numeroGenerado, limiteDisponible);
 
                 acumulados[0] += pasajerosSuben;
+                PASAJEROS_RESTANTES = PASAJEROS_RESTANTES - pasajerosSuben;
                 valorAnterior[0] = pasajerosSuben; // lo usamos para influenciar el siguiente
 
                 System.out.println("Pasajeros suben en " + estacion.getNombre() + ": " + pasajerosSuben);
