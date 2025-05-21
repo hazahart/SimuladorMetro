@@ -52,7 +52,7 @@ public class Pseudoaleatorio {
         return generadorCongruenciaLineal(semilla, lista);
     }
 
-    public int[] burbujaCiega(int[] arr) {
+    private int[] burbujaCiega(int[] arr) {
         for (int i = 0; i < arr.length - 1; i++) {
             int temp = arr[i];
             arr[i] = arr[i + 1];
@@ -61,7 +61,7 @@ public class Pseudoaleatorio {
         return arr;
     }
 
-    public int generarSemilla(String[] arreglo) {
+    private int generarSemilla(String[] arreglo) {
         int semilla = 0;
         for (String s : arreglo) {
             try {
@@ -74,7 +74,7 @@ public class Pseudoaleatorio {
         return semilla;
     }
 
-    public int[] desordenControlado(int semilla) {
+    private int[] desordenControlado(int semilla) {
         int[] lista = new int[TOTAL_PASAJEROS];
         for (int i = 0; i < TOTAL_PASAJEROS; i++) {
             lista[i] = i;
@@ -91,7 +91,7 @@ public class Pseudoaleatorio {
         return lista;
     }
 
-    public int generadorCongruenciaLineal(int semilla, int[] lista) {
+    private int generadorCongruenciaLineal(int semilla, int[] lista) {
         int a = 92 + lista[TOTAL_PASAJEROS / 4];
         int c = 164 + lista[TOTAL_PASAJEROS / 6];
         int x = semilla * lista[TOTAL_PASAJEROS / 3];
